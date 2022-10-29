@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { ComponentProps, FC, useCallback } from 'react';
 
-import { Button, Dropdown, Image } from '@app/common/components';
+import { Button, Container, Dropdown, Image } from '@app/common/components';
 
 export interface HeaderProps {}
 
@@ -11,17 +11,19 @@ export const Header: FC<HeaderProps> = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="flex items-center h-16 px-6 border-b border-b-gray-200">
-      <Link href="/" className="font-cursive text-2xl leading-none antialiased transition-opacity hover:opacity-80">
-        Cookbook
-      </Link>
+    <header className="h-16 border-b border-b-gray-200">
+      <Container className="flex items-center h-full">
+        <Link href="/" className="font-cursive text-2xl leading-none antialiased transition-opacity hover:opacity-80">
+          Cookbook
+        </Link>
 
-      <nav className="flex items-center space-x-4 ml-auto">
-        <StyledLink href="feed">Recipe Feed</StyledLink>
-        <StyledLink href="dashboard">Dashboard</StyledLink>
-        <StyledLink href="favorites">Favorites</StyledLink>
-        {session ? <AuthorizedControls /> : <UnauthorizedControls />}
-      </nav>
+        <nav className="flex items-center space-x-4 ml-auto">
+          <StyledLink href="feed">Recipe Feed</StyledLink>
+          <StyledLink href="dashboard">Dashboard</StyledLink>
+          <StyledLink href="favorites">Favorites</StyledLink>
+          {session ? <AuthorizedControls /> : <UnauthorizedControls />}
+        </nav>
+      </Container>
     </header>
   );
 };

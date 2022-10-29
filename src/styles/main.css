@@ -11,4 +11,9 @@
     @apply outline-none;
     @apply ring-2 ring-offset-2 ring-emerald-500;
   }
+
+  h2 {
+    @apply mt-8 mb-6;
+    @apply font-bold text-4xl;
+  }
 }
