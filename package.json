@@ -10,10 +10,13 @@
     "generate:secret": "openssl rand -base64 32"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.3",
+    "clsx": "^1.2.1",
     "next": "13.0.0",
     "next-auth": "^4.15.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-popper": "^2.3.0"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^3.4.0",

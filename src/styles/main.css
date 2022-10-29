@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans text-sm text-gray-800 leading-normal tracking-normal;
+  }
+
+  *:focus-visible {
+    @apply outline-none;
+    @apply ring-2 ring-offset-2 ring-emerald-500;
+  }
+}
