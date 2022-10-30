@@ -1,6 +1,6 @@
 # Cookbook app
 
-This app is built with Next.js & TypeScript. Uses `next-auth` for any auth purposes.
+This app is built with Next.js & TypeScript. Uses `next-auth` for any auth purposes. Supabase as a backend.
 
 ## Prerequisites
 
@@ -22,3 +22,5 @@ This project requires following environment variables to work correctly:
 - `NEXTAUTH_SECRET`: secret string used for encryption. Run `npm run generate:secret` (assuming you have all dependencies installed) to generate a secret.
 - `GOOGLE_CLIENT_ID`: app identifier for Google OAuth. Can be obtained from GCP console.
 - `GOOGLE_CLIENT_SECRET`: secret string to verify tokens issued by Google OAuth. Can be obtained from GCP console.
+- `SUPABASE_URL`: Supabase database URL. Can be obtained from [Supabase Dashboard](https://app.supabase.com) in Project Settings.
+- `SUPABASE_API_KEY`: Supabase API key with read-write access. Can be obtained the same way as `SUPABASE_URL`. **Note**: shouldn't be exposed to client side.
