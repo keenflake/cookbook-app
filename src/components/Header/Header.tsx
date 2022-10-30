@@ -64,7 +64,8 @@ const AuthorizedControls: FC = () => {
   if (session?.user.image) {
     return (
       <Dropdown
-        className="w-32"
+        className="w-8 h-8"
+        panelClassName="w-32"
         placement="bottom-end"
         trigger={
           <Image
