@@ -11,16 +11,13 @@ export const Header: FC<HeaderProps> = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="h-16 border-b border-b-gray-200">
+    <header className="h-16 sticky top-0 z-10 bg-white/20 backdrop-blur-md border-b border-b-gray-200">
       <Container className="flex items-center h-full">
         <Link href="/" className="font-cursive text-2xl leading-none antialiased transition-opacity hover:opacity-80">
           Cookbook
         </Link>
 
         <nav className="flex items-center space-x-4 ml-auto">
-          <StyledLink href="feed">Recipe Feed</StyledLink>
-          <StyledLink href="dashboard">Dashboard</StyledLink>
-          <StyledLink href="favorites">Favorites</StyledLink>
           {session ? <AuthorizedControls /> : <UnauthorizedControls />}
         </nav>
       </Container>
@@ -63,37 +60,42 @@ const AuthorizedControls: FC = () => {
 
   if (session?.user.image) {
     return (
-      <Dropdown
-        className="w-8 h-8"
-        panelClassName="w-32"
-        placement="bottom-end"
-        trigger={
-          <Image
-            src={session.user.image}
-            width={32}
-            height={32}
-            alt={`${session.user.name} photo`}
-            className="rounded-full"
-            referrerPolicy="no-referrer"
-          />
-        }
-      >
-        <ul className="flex flex-col space-y-2">
-          <li>
-            <Link href="profile" className="block w-full px-3 py-2 rounded-md hover:bg-gray-200 font-medium">
-              Profile
-            </Link>
-          </li>
-          <li>
-            <button
-              className="block w-full px-3 py-2 rounded-md hover:bg-gray-200 font-medium text-left"
-              onClick={handleSignOutClick}
-            >
-              Sign Out
-            </button>
-          </li>
-        </ul>
-      </Dropdown>
+      <>
+        <StyledLink href="/">Recipes</StyledLink>
+        <StyledLink href="/dashboard">Dashboard</StyledLink>
+        <StyledLink href="/favorites">Favorites</StyledLink>
+        <Dropdown
+          className="w-8 h-8"
+          panelClassName="w-32"
+          placement="bottom-end"
+          trigger={
+            <Image
+              src={session.user.image}
+              width={32}
+              height={32}
+              alt={`${session.user.name} photo`}
+              className="rounded-full"
+              referrerPolicy="no-referrer"
+            />
+          }
+        >
+          <ul className="flex flex-col space-y-2">
+            <li>
+              <Link href="/profile" className="block w-full px-3 py-2 rounded-md hover:bg-gray-200 font-medium">
+                Profile
+              </Link>
+            </li>
+            <li>
+              <button
+                className="block w-full px-3 py-2 rounded-md hover:bg-gray-200 font-medium text-left"
+                onClick={handleSignOutClick}
+              >
+                Sign Out
+              </button>
+            </li>
+          </ul>
+        </Dropdown>
+      </>
     );
   }
 
