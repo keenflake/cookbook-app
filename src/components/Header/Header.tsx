@@ -1,17 +1,32 @@
 import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { ComponentProps, FC, useCallback } from 'react';
+import { ComponentProps, ComponentPropsWithoutRef, FC, useCallback } from 'react';
 
 import { Button, Container, Dropdown, Image } from '@app/common/components';
 
-export interface HeaderProps {}
+type Props = ComponentPropsWithoutRef<'header'>;
 
-export const Header: FC<HeaderProps> = () => {
+export interface HeaderProps extends Props {}
+
+export const Header: FC<HeaderProps> = ({ className, ...props }) => {
   const { data: session } = useSession();
 
   return (
-    <header className="h-16 sticky top-0 z-10 bg-white/20 backdrop-blur-md border-b border-b-gray-200">
+    <header
+      className={clsx(
+        'h-16',
+        'sticky',
+        'top-0',
+        'z-10',
+        'bg-white/20',
+        'backdrop-blur-md',
+        'border-b',
+        'border-b-gray-200',
+        className,
+      )}
+      {...props}
+    >
       <Container className="flex items-center h-full">
         <Link href="/" className="font-cursive text-2xl leading-none antialiased transition-opacity hover:opacity-80">
           Cookbook
