@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 export interface CreateRecipeFormValues {
   name: string;
   description: string;
+  image: File | null;
   cookingTime: number;
   servingsCount: number;
   ingredients: { id: string; value: string }[];
@@ -12,6 +13,7 @@ export interface CreateRecipeFormValues {
 export const initialValues: CreateRecipeFormValues = {
   name: '',
   description: '',
+  image: null,
   cookingTime: 30,
   servingsCount: 4,
   ingredients: [],
@@ -21,6 +23,9 @@ export const initialValues: CreateRecipeFormValues = {
 export const validationSchema = Yup.object().shape({
   name: Yup.string().min(4, 'Name is too short').max(75, 'Name is too long').required('Name cannot be blank'),
   description: Yup.string().required('Description cannot be blank'),
+  image: Yup.mixed()
+    .required('Image is required')
+    .test('fileSize', 'Maximum image size is 1mb', (file: File | null) => !!file && file.size < 1000000),
   cookingTime: Yup.number()
     .min(1, 'Cooking time cannot be less than 1 minute')
     .required('Cooking time cannot be blank'),

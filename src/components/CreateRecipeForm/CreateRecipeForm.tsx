@@ -64,8 +64,8 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ className, disable
                 label="Preview Image"
                 containerClassName="h-full"
                 className="!h-full"
-                id="preview-image"
-                name="preview-image"
+                id="image"
+                name="image"
                 accept="image/jpg, image/jpeg, image/png"
                 disabled={disabled}
               />

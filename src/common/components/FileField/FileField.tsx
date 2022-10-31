@@ -1,16 +1,19 @@
 import clsx from 'clsx';
+import { useField } from 'formik';
 import { ChangeEventHandler, ComponentPropsWithoutRef, FC, useCallback, useMemo, useRef, useState } from 'react';
 
-import { FieldLabel, Icon } from '@app/common/components';
+import { FieldError, FieldLabel, Icon } from '@app/common/components';
 
-type Props = Omit<ComponentPropsWithoutRef<'input'>, 'type'>;
+type Props = Omit<ComponentPropsWithoutRef<'input'>, 'type' | 'name'>;
 
 export interface FileFieldProps extends Props {
+  name: string;
   label?: string;
   containerClassName?: string;
 }
 
 export const FileField: FC<FileFieldProps> = ({
+  name,
   containerClassName,
   label,
   id,
@@ -18,18 +21,31 @@ export const FileField: FC<FileFieldProps> = ({
   disabled,
   ...inputProps
 }) => {
-  const [value, setValue] = useState<File | null>(null);
+  const [field, meta, helpers] = useField(name);
+
+  const [previewSrc, setPreviewSrc] = useState<string | ArrayBuffer | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(e => {
-    if (e.currentTarget.files && e.currentTarget.files.length > 0) {
-      const file = e.currentTarget.files.item(0);
+  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
+    e => {
+      if (e.currentTarget.files && e.currentTarget.files.length > 0) {
+        const reader = new FileReader();
 
-      if (file) {
-        setValue(file);
+        reader.addEventListener('load', () => {
+          setPreviewSrc(reader.result);
+        });
+
+        const file = e.currentTarget.files.item(0);
+
+        if (file) {
+          reader.readAsDataURL(file);
+
+          helpers.setValue(file);
+        }
       }
-    }
-  }, []);
+    },
+    [helpers],
+  );
 
   const handleUploadClick = useCallback(() => {
     if (!inputRef.current) {
@@ -38,14 +54,6 @@ export const FileField: FC<FileFieldProps> = ({
 
     inputRef.current.click();
   }, []);
-
-  const previewSrc = useMemo(() => {
-    if (!value) {
-      return null;
-    }
-
-    return URL.createObjectURL(value);
-  }, [value]);
 
   return (
     <div className={clsx('flex', 'flex-col', containerClassName)}>
@@ -57,11 +65,13 @@ export const FileField: FC<FileFieldProps> = ({
       <input
         type="file"
         className="sr-only"
+        name={name}
         id={id}
         tabIndex={-1}
         ref={inputRef}
         disabled={disabled}
         onChange={handleChange}
+        onBlur={field.onBlur}
         {...inputProps}
       />
       <button
@@ -90,17 +100,19 @@ export const FileField: FC<FileFieldProps> = ({
         )}
         onClick={handleUploadClick}
       >
-        {previewSrc ? (
+        {/* Handle base64 strings */}
+        {previewSrc && typeof previewSrc === 'string' ? (
           <div className="absolute inset-1">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={previewSrc}
-              alt={value?.name}
+              alt="preview image"
               className={clsx(
                 'w-full',
                 'h-full',
                 'rounded-sm',
                 'object-cover',
+                'object-center',
                 'transition-colors',
                 disabled && 'opacity-70',
               )}
@@ -113,6 +125,8 @@ export const FileField: FC<FileFieldProps> = ({
           </>
         )}
       </button>
+
+      {meta.error && meta.touched && <FieldError>{meta.error}</FieldError>}
     </div>
   );
 };
