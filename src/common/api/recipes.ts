@@ -11,6 +11,7 @@ const blankRecipeToFormData = (recipe: BlankRecipe): FormData => {
 
   data.append('name', recipe.name);
   data.append('description', recipe.description);
+  data.append('cuisine', recipe.cuisine);
   data.append('cookingTime', recipe.cookingTime.toString());
   data.append('servingsCount', recipe.servingsCount.toString());
   data.append('ingredients', JSON.stringify(recipe.ingredients));

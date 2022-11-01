@@ -1,6 +1,7 @@
 export interface BlankRecipe {
   name: string;
   description: string;
+  cuisine: string;
   image: File | null;
   cookingTime: number;
   servingsCount: number;

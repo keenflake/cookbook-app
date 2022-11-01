@@ -2,7 +2,16 @@ import { FieldArray, Form, Formik } from 'formik';
 import { Reorder } from 'framer-motion';
 import { FC, useCallback } from 'react';
 
-import { Button, DraggableTextField, FieldError, FileField, TextAreaField, TextField } from '@app/common/components';
+import {
+  Button,
+  DraggableTextField,
+  FieldError,
+  FileField,
+  SelectField,
+  TextAreaField,
+  TextField,
+} from '@app/common/components';
+import { CUISINES } from '@app/common/constants';
 import { BlankRecipe } from '@app/common/models';
 import { getRandomHex } from '@app/common/utils';
 
@@ -55,6 +64,14 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ className, disable
                 placeholder="This is my lovely Key Lime Pie recipe"
                 rows={6}
                 className="resize-none"
+                disabled={disabled}
+              />
+              <SelectField
+                label="Cuisine"
+                name="cuisine"
+                id="cuisine"
+                placeholder="Select cuisine"
+                options={CUISINES}
                 disabled={disabled}
               />
             </div>
