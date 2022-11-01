@@ -1,13 +1,19 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 
-import { Button, Container } from '@app/common/components';
+import { getUserRecipes } from '@app/api/supabase';
+import { Button, Container, RecipeCard } from '@app/common/components';
+import { Recipe } from '@app/common/models';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
-const DashboardPage: NextPage = () => {
+interface DashboardPageProps {
+  recipes: Recipe[];
+}
+
+const DashboardPage: NextPage<DashboardPageProps> = ({ recipes }) => {
   return (
-    <Container>
+    <Container className="mb-12">
       <div className="flex items-center">
         <h2>Dashboard</h2>
 
@@ -22,6 +28,16 @@ const DashboardPage: NextPage = () => {
           Recipe
         </Button>
       </div>
+
+      {recipes.length > 0 && (
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+          {recipes.map(recipe => (
+            <li key={recipe.id}>
+              <RecipeCard recipe={recipe} transitions />
+            </li>
+          ))}
+        </ul>
+      )}
     </Container>
   );
 };
@@ -38,9 +54,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     };
   }
 
+  const recipes = await getUserRecipes(session.user.id);
+
   return {
     props: {
       session,
+      recipes,
     },
   };
 };

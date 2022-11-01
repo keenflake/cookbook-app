@@ -8,6 +8,7 @@ export * from './FieldLabel';
 export * from './FileField';
 export * from './Icon';
 export * from './Image';
+export * from './RecipeCard';
 export * from './SelectField';
 export * from './TextAreaField';
 export * from './TextField';

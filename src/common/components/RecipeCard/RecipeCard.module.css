@@ -1,0 +1,4 @@
+.transitions {
+  @apply transition-all;
+  @apply hover:scale-[101%] hover:shadow-md;
+}
