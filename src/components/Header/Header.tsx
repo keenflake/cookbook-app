@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { ComponentProps, ComponentPropsWithoutRef, FC, useCallback } from 'react';
+import { ComponentProps, ComponentPropsWithoutRef, FC, useCallback, useEffect, useState } from 'react';
 
 import { Button, Container, Dropdown, Image } from '@app/common/components';
 
@@ -12,17 +12,29 @@ export interface HeaderProps extends Props {}
 export const Header: FC<HeaderProps> = ({ className, ...props }) => {
   const { data: session } = useSession();
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    /**
+     * No need to do any cleanup since we want this to work on all pages
+     */
+    window.addEventListener('scroll', () => {
+      setScrolled(() => window.scrollY > 0);
+    });
+  }, []);
+
   return (
     <header
       className={clsx(
         'h-16',
-        'sticky',
+        'fixed',
         'top-0',
-        'z-10',
+        'right-0',
+        'left-0',
+        'z-20',
         'bg-white/20',
         'backdrop-blur-md',
-        'border-b',
-        'border-b-gray-200',
+        !scrolled && ['border-b', 'border-b-gray-200'],
         className,
       )}
       {...props}
