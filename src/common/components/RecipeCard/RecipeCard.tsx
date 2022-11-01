@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import { ComponentPropsWithoutRef, FC } from 'react';
+import { ComponentPropsWithoutRef, FC, MouseEventHandler, useCallback } from 'react';
 
-import { Card, Image } from '@app/common/components';
+import { Card, IconButton, Image } from '@app/common/components';
 import { Recipe } from '@app/common/models';
 
 import styles from './RecipeCard.module.css';
@@ -12,9 +12,16 @@ type Props = ComponentPropsWithoutRef<'article'>;
 export interface RecipeCardProps extends Props {
   recipe: Recipe;
   transitions?: boolean;
+  onDelete?: (recipe: Recipe) => void;
 }
 
-export const RecipeCard: FC<RecipeCardProps> = ({ recipe, transitions = false, ...props }) => {
+export const RecipeCard: FC<RecipeCardProps> = ({ recipe, transitions = false, onDelete, ...props }) => {
+  const handleDeleteClick = useCallback(() => {
+    if (onDelete) {
+      onDelete(recipe);
+    }
+  }, [onDelete, recipe]);
+
   return (
     <Link href={`/recipes/${recipe.id}`} target="_blank" className="block">
       <article {...props}>
@@ -33,14 +40,26 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe, transitions = false, .
 
             <hr className="my-4" />
 
-            <ul className="flex space-x-2">
-              <li className="px-3 py-2 bg-emerald-500 rounded-full font-medium text-xs text-white leading-none">
-                {recipe.cuisine}
-              </li>
-              <li className="px-3 py-2 bg-sky-500 rounded-full font-medium text-xs text-white leading-none">
-                {recipe.cookingTime} mins
-              </li>
-            </ul>
+            <div className="flex items-center justify-between">
+              <ul className="flex space-x-2">
+                <li className="px-3 py-2 bg-emerald-500 rounded-full font-medium text-xs text-white leading-none">
+                  {recipe.cuisine}
+                </li>
+                <li className="px-3 py-2 bg-sky-500 rounded-full font-medium text-xs text-white leading-none">
+                  {recipe.cookingTime} mins
+                </li>
+              </ul>
+
+              <div
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.nativeEvent.stopImmediatePropagation();
+                }}
+              >
+                <IconButton icon="trash" iconProps={{ className: 'w-5 h-5' }} onClick={handleDeleteClick} />
+              </div>
+            </div>
           </div>
         </Card>
       </article>

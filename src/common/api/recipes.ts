@@ -4,6 +4,7 @@ import { BlankRecipe, Recipe } from '@app/common/models';
 
 export interface RecipesMutations {
   create: (recipe: BlankRecipe) => Promise<Recipe>;
+  remove: (recipeId: string) => Promise<void>;
 }
 
 const blankRecipeToFormData = (recipe: BlankRecipe): FormData => {
@@ -39,5 +40,13 @@ export const useRecipesMutations = (): RecipesMutations => {
     return recipe;
   }, []);
 
-  return { create };
+  const remove = useCallback(async (recipeId: string): Promise<void> => {
+    const res = await fetch(`/api/recipes/${recipeId}`, { method: 'DELETE' });
+
+    if (!res.ok) {
+      throw new Error(`Error during recipe deletion, code is: ${res.status}`);
+    }
+  }, []);
+
+  return { create, remove };
 };

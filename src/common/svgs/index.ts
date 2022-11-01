@@ -7,6 +7,7 @@ import { Google } from './Google';
 import { Heart } from './Heart';
 import { Plus } from './Plus';
 import { Tag } from './Tag';
+import { Trash } from './Trash';
 import { Upload } from './Upload';
 
 export const svgs = {
@@ -19,5 +20,6 @@ export const svgs = {
   heart: Heart,
   plus: Plus,
   tag: Tag,
+  trash: Trash,
   upload: Upload,
 };

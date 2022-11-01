@@ -8,7 +8,7 @@ import { supabase } from '@app/api/supabase';
 import { getFirstFile } from '@app/utils/getFirstFile';
 import { parseFormData } from '@app/utils/parseFormData';
 
-import { authOptions } from './auth/[...nextauth]';
+import { authOptions } from '../auth/[...nextauth]';
 
 const handler: NextApiHandler = (req, res) => {
   if (req.method === 'GET') {
@@ -18,6 +18,8 @@ const handler: NextApiHandler = (req, res) => {
   if (req.method === 'POST') {
     return handleCreate(req, res);
   }
+
+  return res.status(404).json({ message: 'Not found' });
 };
 
 const handleGet: NextApiHandler = async (_, res) => {

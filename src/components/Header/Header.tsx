@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { ComponentProps, ComponentPropsWithoutRef, FC, useCallback, useEffect, useState } from 'react';
 
-import { Button, Container, Dropdown, Image } from '@app/common/components';
+import { Button, Container, Dropdown, FavoriteButton, Image } from '@app/common/components';
 
 type Props = ComponentPropsWithoutRef<'header'>;
 
@@ -90,7 +90,9 @@ const AuthorizedControls: FC = () => {
       <>
         <StyledLink href="/">Recipes</StyledLink>
         <StyledLink href="/dashboard">Dashboard</StyledLink>
-        <StyledLink href="/favorites">Favorites</StyledLink>
+        <StyledLink href="/favorites">
+          <FavoriteButton className="inline-flex justify-center items-center w-8 h-8 p-0" />
+        </StyledLink>
         <Dropdown
           className="w-8 h-8"
           panelClassName="w-32"
