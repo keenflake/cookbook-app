@@ -1,8 +1,11 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import { useCallback, useState } from 'react';
 
-import { getRecipe } from '@app/api/supabase/queries';
-import { Container, FavoriteButton, Icon, IconButton, Image } from '@app/common/components';
+import { getRecipe, isRecipeFavorite } from '@app/api/supabase/queries';
+import { useFavoritesMutations } from '@app/common/api';
+import { Container, FavoriteButton, Icon, Image } from '@app/common/components';
 import { CUISINES } from '@app/common/constants';
 import { Recipe } from '@app/common/models';
 
@@ -10,11 +13,37 @@ import { authOptions } from '../api/auth/[...nextauth]';
 
 interface RecipeDetailsPageProps {
   recipe: Recipe;
+  favorite: boolean;
 }
 
 const getCuisineLabel = (name: string): string => CUISINES.find(cuisine => cuisine.value === name)?.label!;
 
-const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe }) => {
+const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe, favorite }) => {
+  const { data: session } = useSession();
+
+  const { create, remove } = useFavoritesMutations();
+
+  const [isFavorite, setIsFavorite] = useState(favorite);
+  const [isFavoriteInProgress, setIsFavoriteInProgress] = useState(false);
+
+  const handleFavoriteClick = useCallback(async () => {
+    if (isFavoriteInProgress) {
+      return;
+    }
+
+    setIsFavoriteInProgress(true);
+
+    try {
+      isFavorite ? await remove(recipe) : await create(recipe);
+
+      setIsFavorite(favorite => !favorite);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsFavoriteInProgress(false);
+    }
+  }, [isFavoriteInProgress, isFavorite, recipe, remove, create]);
+
   return (
     <Container className="my-12">
       <div className="h-80 relative rounded-md overflow-hidden">
@@ -41,7 +70,14 @@ const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe }) => {
             </li>
           </ul>
 
-          <FavoriteButton type="button" />
+          {session && (
+            <FavoriteButton
+              type="button"
+              disabled={isFavoriteInProgress}
+              favorite={isFavorite}
+              onClick={handleFavoriteClick}
+            />
+          )}
         </div>
 
         <hr className="mt-8" />
@@ -50,7 +86,7 @@ const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe }) => {
           <div className="flex-[3]">
             <h3>About this recipe</h3>
 
-            <p>{recipe.description}</p>
+            <p className="whitespace-pre-wrap">{recipe.description}</p>
           </div>
 
           <div className="flex-[2]">
@@ -72,7 +108,7 @@ const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe }) => {
         <ol className="space-y-4">
           {recipe.preparationSteps.map((step, idx) => (
             <li key={step} className="flex items-center space-x-4 px-6 py-4 bg-gray-100 rounded-lg font-medium">
-              <span className="flex items-center justify-center w-8 h-8 bg-emerald-500 rounded-full text-xs text-white leading-none">
+              <span className="flex items-center justify-center flex-shrink-0 w-8 h-8 bg-emerald-500 rounded-full text-xs text-white leading-none">
                 {idx + 1}
               </span>
 
@@ -109,6 +145,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res, params 
     props: {
       session,
       recipe,
+      favorite: session ? await isRecipeFavorite(session.user.id, recipe.id) : false,
     },
   };
 };

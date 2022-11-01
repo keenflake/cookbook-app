@@ -13,3 +13,9 @@ export const getRecipe = async (recipeId: string): Promise<Recipe | null> => {
 
   return response.data?.at(0) || null;
 };
+
+export const isRecipeFavorite = async (userId: string, recipeId: string): Promise<boolean> => {
+  const response = await supabase.from('favorites').select('*').eq('userId', userId).eq('recipeId', recipeId);
+
+  return !!response.data && response.data.length === 1;
+};
