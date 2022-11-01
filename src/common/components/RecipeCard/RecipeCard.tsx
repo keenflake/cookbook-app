@@ -29,7 +29,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe, transitions = false, .
           </div>
 
           <div className="p-4">
-            <p>{recipe.description}</p>
+            <p className="line-clamp-4">{recipe.description}</p>
 
             <hr className="my-4" />
 
