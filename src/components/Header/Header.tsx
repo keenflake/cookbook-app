@@ -79,7 +79,7 @@ const AuthorizedControls: FC = () => {
         <StyledLink href="/">Recipes</StyledLink>
         <StyledLink href="/dashboard">Dashboard</StyledLink>
         <StyledLink href="/favorites">
-          <FavoriteButton className="inline-flex justify-center items-center w-8 h-8 !p-0" />
+          <FavoriteButton tabIndex={-1} className="inline-flex justify-center items-center w-8 h-8 !p-0" />
         </StyledLink>
         <Dropdown
           className="w-8 h-8"
