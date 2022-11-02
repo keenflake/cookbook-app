@@ -57,20 +57,20 @@ const IndexPage: NextPage<IndexPageProps> = ({ recipes: initialRecipes }) => {
         {initialRecipes.length > 0 ? (
           <>
             <Formik initialValues={searchInitialValue} onSubmit={handleSubmit}>
-              <Form className="flex space-x-4 mb-6">
+              <Form className="flex space-x-4 sm:space-x-2 mb-6">
                 <TextField
                   name="query"
                   id="query"
                   placeholder="Lasagna Bolognese"
                   onChange={(...values) => console.log(values)}
                 />
-                <Button type="submit" appearance="primary" className="px-8">
+                <Button type="submit" appearance="primary" className="px-8 sm:px-4">
                   Search
                 </Button>
               </Form>
             </Formik>
 
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+            <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-3">
               {filteredRecipes.map(recipe => (
                 <li key={recipe.id}>
                   <RecipeCard recipe={recipe} />

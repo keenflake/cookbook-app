@@ -23,7 +23,7 @@ const FavoritesPage: NextPage<FavoritesPageProps> = ({ favoriteRecipes }) => {
         <h2>Favorites</h2>
 
         {favoriteRecipes.length > 0 ? (
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+          <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-3">
             {favoriteRecipes.map(favoriteRecipe => (
               <li key={favoriteRecipe.recipes.id}>
                 <RecipeCard recipe={favoriteRecipe.recipes} />

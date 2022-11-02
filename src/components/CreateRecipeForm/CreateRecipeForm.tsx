@@ -47,7 +47,7 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ className, disable
         <Form className={className}>
           <h3>General Information</h3>
 
-          <div className="flex space-x-4">
+          <div className="flex md:block space-x-4 md:space-x-0 md:space-y-4">
             <div className="flex-1 space-y-4">
               <TextField
                 type="text"
@@ -76,7 +76,7 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ className, disable
               />
             </div>
 
-            <div className="flex-1">
+            <div className="flex-1 md:h-60">
               <FileField
                 label="Preview Image"
                 containerClassName="h-full"
@@ -89,7 +89,7 @@ export const CreateRecipeForm: FC<CreateRecipeFormProps> = ({ className, disable
             </div>
           </div>
 
-          <div className="flex space-x-4 mt-4">
+          <div className="flex md:block space-x-4 md:space-x-0 md:space-y-4 mt-4">
             <div className="flex-1">
               <TextField
                 type="number"

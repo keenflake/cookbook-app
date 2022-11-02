@@ -59,7 +59,7 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ recipes: initialRecipes }
         </div>
 
         {recipes.length > 0 && (
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+          <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-3">
             {recipes.map(recipe => (
               <li key={recipe.id}>
                 <RecipeCard recipe={recipe} transitions showDeleteBtn onDelete={handleDelete} />

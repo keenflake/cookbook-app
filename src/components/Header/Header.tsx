@@ -32,7 +32,7 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
           Cookbook
         </Link>
 
-        <nav className="flex items-center space-x-4 ml-auto">
+        <nav className="flex items-center space-x-4 sm:space-x-2 ml-auto">
           {session ? <AuthorizedControls /> : <UnauthorizedControls />}
         </nav>
       </Container>
