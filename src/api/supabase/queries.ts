@@ -1,4 +1,4 @@
-import { Recipe } from '@app/common/models';
+import { FavoriteRecipe, Recipe } from '@app/common/models';
 
 import { supabase } from './client';
 
@@ -10,6 +10,22 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 
 export const getUserRecipes = async (userId: string): Promise<Recipe[]> => {
   const response = await supabase.from('recipes').select('*').eq('userId', userId);
+
+  return response.data || [];
+};
+
+export const getUserFavoriteRecipes = async (userId: string): Promise<FavoriteRecipe[]> => {
+  const response = await supabase
+    .from('favorites')
+    .select(
+      `
+        *,
+        recipes (
+          *
+        )
+      `,
+    )
+    .eq('userId', userId);
 
   return response.data || [];
 };
