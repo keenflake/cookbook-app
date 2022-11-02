@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { ComponentProps, ComponentPropsWithoutRef, FC, useCallback, useEffect, useState } from 'react';
+import { ComponentProps, ComponentPropsWithoutRef, FC, useCallback } from 'react';
 
 import { Button, Container, Dropdown, FavoriteButton, Image } from '@app/common/components';
 
@@ -12,17 +12,6 @@ export interface HeaderProps extends Props {}
 export const Header: FC<HeaderProps> = ({ className, ...props }) => {
   const { data: session } = useSession();
 
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    /**
-     * No need to do any cleanup since we want this to work on all pages
-     */
-    window.addEventListener('scroll', () => {
-      setScrolled(() => window.scrollY > 0);
-    });
-  }, []);
-
   return (
     <header
       className={clsx(
@@ -32,9 +21,8 @@ export const Header: FC<HeaderProps> = ({ className, ...props }) => {
         'right-0',
         'left-0',
         'z-20',
-        'bg-white/20',
-        'backdrop-blur-md',
-        !scrolled && ['border-b', 'border-b-gray-200'],
+        'bg-white',
+        'border-b border-gray-200',
         className,
       )}
       {...props}
@@ -91,7 +79,7 @@ const AuthorizedControls: FC = () => {
         <StyledLink href="/">Recipes</StyledLink>
         <StyledLink href="/dashboard">Dashboard</StyledLink>
         <StyledLink href="/favorites">
-          <FavoriteButton className="inline-flex justify-center items-center w-8 h-8 p-0" />
+          <FavoriteButton className="inline-flex justify-center items-center w-8 h-8 !p-0" />
         </StyledLink>
         <Dropdown
           className="w-8 h-8"
