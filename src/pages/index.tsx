@@ -1,6 +1,7 @@
 import { Form, Formik } from 'formik';
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
+import Head from 'next/head';
 import { useCallback, useState } from 'react';
 
 import { getAllRecipes } from '@app/api/supabase/queries';
@@ -45,37 +46,43 @@ const IndexPage: NextPage<IndexPageProps> = ({ recipes: initialRecipes }) => {
   );
 
   return (
-    <Container className="mb-12">
-      <h2>Latest</h2>
+    <>
+      <Head>
+        <title>Cookbook</title>
+      </Head>
 
-      {initialRecipes.length > 0 ? (
-        <>
-          <Formik initialValues={searchInitialValue} onSubmit={handleSubmit}>
-            <Form className="flex space-x-4 mb-6">
-              <TextField
-                name="query"
-                id="query"
-                placeholder="Lasagna Bolognese"
-                onChange={(...values) => console.log(values)}
-              />
-              <Button type="submit" appearance="primary" className="px-8">
-                Search
-              </Button>
-            </Form>
-          </Formik>
+      <Container className="mb-12">
+        <h2>Latest</h2>
 
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
-            {filteredRecipes.map(recipe => (
-              <li key={recipe.id}>
-                <RecipeCard recipe={recipe} />
-              </li>
-            ))}
-          </ul>
-        </>
-      ) : (
-        <p>No recipes found</p>
-      )}
-    </Container>
+        {initialRecipes.length > 0 ? (
+          <>
+            <Formik initialValues={searchInitialValue} onSubmit={handleSubmit}>
+              <Form className="flex space-x-4 mb-6">
+                <TextField
+                  name="query"
+                  id="query"
+                  placeholder="Lasagna Bolognese"
+                  onChange={(...values) => console.log(values)}
+                />
+                <Button type="submit" appearance="primary" className="px-8">
+                  Search
+                </Button>
+              </Form>
+            </Formik>
+
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+              {filteredRecipes.map(recipe => (
+                <li key={recipe.id}>
+                  <RecipeCard recipe={recipe} />
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>No recipes found</p>
+        )}
+      </Container>
+    </>
   );
 };
 

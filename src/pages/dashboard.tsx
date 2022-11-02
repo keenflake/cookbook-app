@@ -1,5 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
+import Head from 'next/head';
 import { useCallback, useState } from 'react';
 
 import { getUserRecipes } from '@app/api/supabase';
@@ -36,32 +37,38 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ recipes: initialRecipes }
   );
 
   return (
-    <Container className="mb-12">
-      <div className="flex items-center">
-        <h2>Dashboard</h2>
+    <>
+      <Head>
+        <title>Cookbook – Dashboard</title>
+      </Head>
 
-        <Button
-          appearance="primary"
-          className="ml-auto"
-          link="/recipes/create"
-          icon="plus"
-          iconProps={{ className: 'w-5' }}
-          iconPosition="left"
-        >
-          Recipe
-        </Button>
-      </div>
+      <Container className="mb-12">
+        <div className="flex items-center">
+          <h2>Dashboard</h2>
 
-      {recipes.length > 0 && (
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
-          {recipes.map(recipe => (
-            <li key={recipe.id}>
-              <RecipeCard recipe={recipe} transitions showDeleteBtn onDelete={handleDelete} />
-            </li>
-          ))}
-        </ul>
-      )}
-    </Container>
+          <Button
+            appearance="primary"
+            className="ml-auto"
+            link="/recipes/create"
+            icon="plus"
+            iconProps={{ className: 'w-5' }}
+            iconPosition="left"
+          >
+            Recipe
+          </Button>
+        </div>
+
+        {recipes.length > 0 && (
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+            {recipes.map(recipe => (
+              <li key={recipe.id}>
+                <RecipeCard recipe={recipe} transitions showDeleteBtn onDelete={handleDelete} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </Container>
+    </>
   );
 };
 

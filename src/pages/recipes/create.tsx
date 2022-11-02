@@ -1,5 +1,6 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
@@ -35,17 +36,23 @@ const CreateRecipePage: NextPage = () => {
   );
 
   return (
-    <Container>
-      <div className="flex items-center justify-between mt-10 mb-8">
-        <h2 className="m-0">New Recipe</h2>
+    <>
+      <Head>
+        <title>Cookbook – Create a Recipe</title>
+      </Head>
 
-        <Button appearance="secondary" icon="back" iconProps={{ className: 'w-5' }} link="/dashboard">
-          Back
-        </Button>
-      </div>
+      <Container>
+        <div className="flex items-center justify-between mt-10 mb-8">
+          <h2 className="m-0">New Recipe</h2>
 
-      <CreateRecipeForm className="mb-10" disabled={isUIBlocked} onSubmit={handleSubmit} />
-    </Container>
+          <Button appearance="secondary" icon="back" iconProps={{ className: 'w-5' }} link="/dashboard">
+            Back
+          </Button>
+        </div>
+
+        <CreateRecipeForm className="mb-10" disabled={isUIBlocked} onSubmit={handleSubmit} />
+      </Container>
+    </>
   );
 };
 
