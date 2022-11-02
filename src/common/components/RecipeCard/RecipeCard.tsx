@@ -12,10 +12,17 @@ type Props = ComponentPropsWithoutRef<'article'>;
 export interface RecipeCardProps extends Props {
   recipe: Recipe;
   transitions?: boolean;
+  showDeleteBtn?: boolean;
   onDelete?: (recipe: Recipe) => void;
 }
 
-export const RecipeCard: FC<RecipeCardProps> = ({ recipe, transitions = false, onDelete, ...props }) => {
+export const RecipeCard: FC<RecipeCardProps> = ({
+  recipe,
+  transitions = false,
+  showDeleteBtn = false,
+  onDelete,
+  ...props
+}) => {
   const handleDeleteClick = useCallback(() => {
     if (onDelete) {
       onDelete(recipe);
@@ -50,15 +57,17 @@ export const RecipeCard: FC<RecipeCardProps> = ({ recipe, transitions = false, o
                 </li>
               </ul>
 
-              <div
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  e.nativeEvent.stopImmediatePropagation();
-                }}
-              >
-                <IconButton icon="trash" iconProps={{ className: 'w-5 h-5' }} onClick={handleDeleteClick} />
-              </div>
+              {showDeleteBtn && (
+                <div
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.nativeEvent.stopImmediatePropagation();
+                  }}
+                >
+                  <IconButton icon="trash" iconProps={{ className: 'w-5 h-5' }} onClick={handleDeleteClick} />
+                </div>
+              )}
             </div>
           </div>
         </Card>
