@@ -13,16 +13,26 @@ export interface RecipeCardProps extends Props {
   recipe: Recipe;
   transitions?: boolean;
   showDeleteBtn?: boolean;
+  showEditBtn?: boolean;
   onDelete?: (recipe: Recipe) => void;
+  onEdit?: (recipe: Recipe) => void;
 }
 
 export const RecipeCard: FC<RecipeCardProps> = ({
   recipe,
   transitions = false,
   showDeleteBtn = false,
+  showEditBtn = false,
   onDelete,
+  onEdit,
   ...props
 }) => {
+  const handleEditClick = useCallback(() => {
+    if (onEdit) {
+      onEdit(recipe);
+    }
+  }, [onEdit, recipe]);
+
   const handleDeleteClick = useCallback(() => {
     if (onDelete) {
       onDelete(recipe);
@@ -57,15 +67,21 @@ export const RecipeCard: FC<RecipeCardProps> = ({
                 </li>
               </ul>
 
-              {showDeleteBtn && (
+              {(showDeleteBtn || showEditBtn) && (
                 <div
+                  className="flex space-x-2"
                   onClick={e => {
                     e.preventDefault();
                     e.stopPropagation();
                     e.nativeEvent.stopImmediatePropagation();
                   }}
                 >
-                  <IconButton icon="trash" iconProps={{ className: 'w-5 h-5' }} onClick={handleDeleteClick} />
+                  {showEditBtn && (
+                    <IconButton icon="pencil" iconProps={{ className: 'w-5 h-5' }} onClick={handleEditClick} />
+                  )}
+                  {showDeleteBtn && (
+                    <IconButton icon="trash" iconProps={{ className: 'w-5 h-5' }} onClick={handleDeleteClick} />
+                  )}
                 </div>
               )}
             </div>

@@ -10,7 +10,7 @@ import { Container, FavoriteButton, Icon, Image } from '@app/common/components';
 import { CUISINES } from '@app/common/constants';
 import { Recipe } from '@app/common/models';
 
-import { authOptions } from '../api/auth/[...nextauth]';
+import { authOptions } from '../../api/auth/[...nextauth]';
 
 interface RecipeDetailsPageProps {
   recipe: Recipe;
@@ -137,7 +137,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res, params 
   if (!params?.id) {
     return {
       props: {},
-      redirect: '/',
+      redirect: {
+        destination: '/',
+      },
     };
   }
 

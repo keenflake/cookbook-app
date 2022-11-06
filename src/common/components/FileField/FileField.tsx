@@ -1,6 +1,15 @@
 import clsx from 'clsx';
 import { useField } from 'formik';
-import { ChangeEventHandler, ComponentPropsWithoutRef, FC, useCallback, useMemo, useRef, useState } from 'react';
+import {
+  ChangeEventHandler,
+  ComponentPropsWithoutRef,
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { FieldError, FieldLabel, Icon } from '@app/common/components';
 
@@ -11,6 +20,10 @@ export interface FileFieldProps extends Props {
   label?: string;
   containerClassName?: string;
 }
+
+const getImageUrl = (imgPath: string): string => {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_IMAGES_HOST}/${imgPath}`;
+};
 
 export const FileField: FC<FileFieldProps> = ({
   name,
@@ -23,7 +36,10 @@ export const FileField: FC<FileFieldProps> = ({
 }) => {
   const [field, meta, helpers] = useField(name);
 
-  const [previewSrc, setPreviewSrc] = useState<string | ArrayBuffer | null>(null);
+  const [previewSrc, setPreviewSrc] = useState<string | ArrayBuffer | null>(
+    // Handle edit
+    typeof field.value === 'string' ? getImageUrl(field.value) : null,
+  );
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(

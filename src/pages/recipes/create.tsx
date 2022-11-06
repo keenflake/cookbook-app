@@ -5,9 +5,8 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { useRecipesMutations } from '@app/common/api';
-import { Button, Container } from '@app/common/components';
+import { Button, Container, RecipeForm, RecipeFormValues } from '@app/common/components';
 import { BlankRecipe } from '@app/common/models';
-import { CreateRecipeForm } from '@app/components/CreateRecipeForm';
 
 import { authOptions } from '../api/auth/[...nextauth]';
 
@@ -19,7 +18,20 @@ const CreateRecipePage: NextPage = () => {
   const { create } = useRecipesMutations();
 
   const handleSubmit = useCallback(
-    async (recipe: BlankRecipe) => {
+    async (values: RecipeFormValues) => {
+      if (isUIBlocked) {
+        return;
+      }
+
+      const { image, ingredients, preparationSteps, ...partialRecipe } = values;
+
+      const recipe: BlankRecipe = {
+        ...partialRecipe,
+        image: typeof image !== 'string' ? image : null,
+        ingredients: ingredients.map(ingredient => ingredient.value),
+        preparationSteps: preparationSteps.map(step => step.value),
+      };
+
       setIsUIBlocked(true);
 
       try {
@@ -32,7 +44,7 @@ const CreateRecipePage: NextPage = () => {
         setIsUIBlocked(false);
       }
     },
-    [create, router],
+    [isUIBlocked, create, router],
   );
 
   return (
@@ -50,7 +62,7 @@ const CreateRecipePage: NextPage = () => {
           </Button>
         </div>
 
-        <CreateRecipeForm className="mb-10" disabled={isUIBlocked} onSubmit={handleSubmit} />
+        <RecipeForm className="mb-10" disabled={isUIBlocked} submitBtnLabel="Create a Recipe" onSubmit={handleSubmit} />
       </Container>
     </>
   );

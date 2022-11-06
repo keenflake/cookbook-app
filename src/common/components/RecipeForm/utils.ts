@@ -4,18 +4,18 @@ import { CUISINES } from '@app/common/constants';
 
 const cuisineOptions = CUISINES.map(cuisine => cuisine.value);
 
-export interface CreateRecipeFormValues {
+export interface RecipeFormValues {
   name: string;
   description: string;
   cuisine: string;
-  image: File | null;
+  image: File | string | null;
   cookingTime: number;
   servingsCount: number;
   ingredients: { id: string; value: string }[];
   preparationSteps: { id: string; value: string }[];
 }
 
-export const initialValues: CreateRecipeFormValues = {
+export const defaultValues: RecipeFormValues = {
   name: '',
   description: '',
   cuisine: '',
@@ -34,7 +34,14 @@ export const validationSchema = Yup.object().shape({
     .test('option', 'Select a valid option', value => !!value && cuisineOptions.includes(value)),
   image: Yup.mixed()
     .required('Image is required')
-    .test('fileSize', 'Maximum image size is 1mb', (file: File | null) => !!file && file.size < 1000000),
+    .test('fileSize', 'Maximum image size is 1mb', (file: File | string | null) => {
+      if (typeof file === 'string') {
+        // Handle existing image
+        return true;
+      }
+
+      return !!file && file.size < 1000000;
+    }),
   cookingTime: Yup.number()
     .min(1, 'Cooking time cannot be less than 1 minute')
     .required('Cooking time cannot be blank'),

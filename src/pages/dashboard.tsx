@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from 'next';
 import { unstable_getServerSession } from 'next-auth';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { getUserRecipes } from '@app/api/supabase';
@@ -15,10 +16,19 @@ interface DashboardPageProps {
 }
 
 const DashboardPage: NextPage<DashboardPageProps> = ({ recipes: initialRecipes }) => {
+  const router = useRouter();
+
   const [recipes, setRecipes] = useState(initialRecipes);
   const [deletionInProgress, setDeletionInProgress] = useState(false);
 
   const { remove } = useRecipesMutations();
+
+  const handleEdit = useCallback(
+    (recipe: Recipe) => {
+      router.push(`/recipes/${recipe.id}/edit`);
+    },
+    [router],
+  );
 
   const handleDelete = useCallback(
     async (recipeToDelete: Recipe) => {
@@ -62,7 +72,14 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ recipes: initialRecipes }
           <ul className="grid grid-cols-2 md:grid-cols-1 gap-x-4 gap-y-3">
             {recipes.map(recipe => (
               <li key={recipe.id}>
-                <RecipeCard recipe={recipe} transitions showDeleteBtn onDelete={handleDelete} />
+                <RecipeCard
+                  recipe={recipe}
+                  transitions
+                  showDeleteBtn
+                  showEditBtn
+                  onDelete={handleDelete}
+                  onEdit={handleEdit}
+                />
               </li>
             ))}
           </ul>

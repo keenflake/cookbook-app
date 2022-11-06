@@ -11,6 +11,7 @@ export * from './Icon';
 export * from './IconButton';
 export * from './Image';
 export * from './RecipeCard';
+export * from './RecipeForm';
 export * from './SelectField';
 export * from './TextAreaField';
 export * from './TextField';

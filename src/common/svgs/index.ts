@@ -5,6 +5,7 @@ import { EllipsisVertical } from './EllipsisVertical';
 import { GitHub } from './GitHub';
 import { Google } from './Google';
 import { Heart } from './Heart';
+import { Pencil } from './Pencil';
 import { Plus } from './Plus';
 import { Tag } from './Tag';
 import { Trash } from './Trash';
@@ -18,6 +19,7 @@ export const svgs = {
   github: GitHub,
   google: Google,
   heart: Heart,
+  pencil: Pencil,
   plus: Plus,
   tag: Tag,
   trash: Trash,
