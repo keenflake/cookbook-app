@@ -116,7 +116,7 @@ export const RecipeForm: FC<RecipeFormProps> = ({ className, initialValues, disa
                         <>
                           {disabled ? (
                             <ul className="space-y-4 mb-4">
-                              {values.ingredients.map((ingredient, idx) => (
+                              {values.ingredients.map((_, idx) => (
                                 <li key={idx}>
                                   <DraggableTextField type="text" name={`ingredients.${idx}.value`} disabled />
                                 </li>
@@ -134,7 +134,14 @@ export const RecipeForm: FC<RecipeFormProps> = ({ className, initialValues, disa
                             >
                               {values.ingredients.map((ingredient, idx) => (
                                 <Reorder.Item key={ingredient.id} value={ingredient}>
-                                  <DraggableTextField type="text" name={`ingredients.${idx}.value`} />
+                                  <DraggableTextField
+                                    type="text"
+                                    name={`ingredients.${idx}.value`}
+                                    onRemove={() => {
+                                      arrayHelpers.remove(idx);
+                                      setFieldTouched('ingredients', true);
+                                    }}
+                                  />
                                 </Reorder.Item>
                               ))}
                             </Reorder.Group>
@@ -180,7 +187,7 @@ export const RecipeForm: FC<RecipeFormProps> = ({ className, initialValues, disa
                         <>
                           {disabled ? (
                             <ul className="space-y-4 mb-4">
-                              {values.preparationSteps.map((step, idx) => (
+                              {values.preparationSteps.map((_, idx) => (
                                 <li key={idx}>
                                   <DraggableTextField type="text" name={`preparationSteps.${idx}.value`} disabled />
                                 </li>
@@ -198,7 +205,14 @@ export const RecipeForm: FC<RecipeFormProps> = ({ className, initialValues, disa
                             >
                               {values.preparationSteps.map((step, idx) => (
                                 <Reorder.Item key={step.id} value={step}>
-                                  <DraggableTextField type="text" name={`preparationSteps.${idx}.value`} />
+                                  <DraggableTextField
+                                    type="text"
+                                    name={`preparationSteps.${idx}.value`}
+                                    onRemove={() => {
+                                      arrayHelpers.remove(idx);
+                                      setFieldTouched('preparationSteps', true);
+                                    }}
+                                  />
                                 </Reorder.Item>
                               ))}
                             </Reorder.Group>
