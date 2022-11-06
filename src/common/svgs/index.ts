@@ -10,6 +10,7 @@ import { Plus } from './Plus';
 import { Tag } from './Tag';
 import { Trash } from './Trash';
 import { Upload } from './Upload';
+import { User } from './User';
 
 export const svgs = {
   back: Back,
@@ -24,4 +25,5 @@ export const svgs = {
   tag: Tag,
   trash: Trash,
   upload: Upload,
+  user: User,
 };

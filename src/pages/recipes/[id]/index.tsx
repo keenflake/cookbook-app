@@ -65,14 +65,20 @@ const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe, favorite 
 
         <div className="p-8 md:p-4">
           <div className="flex justify-between">
-            <ul className="flex space-x-8 md:space-x-4">
+            <ul className="flex space-x-8 md:space-x-4 xs:space-x-2">
+              <li className="flex items-center space-x-1">
+                <Icon kind="tag" className="w-5" />
+                <span>{getCuisineLabel(recipe.cuisine)}</span>
+              </li>
+
               <li className="flex items-center space-x-1">
                 <Icon kind="clock" className="w-5" />
                 <span>{recipe.cookingTime} mins</span>
               </li>
+
               <li className="flex items-center space-x-1">
-                <Icon kind="tag" className="w-5" />
-                <span>{getCuisineLabel(recipe.cuisine)}</span>
+                <Icon kind="user" className="w-5" />
+                <span>{recipe.servingsCount} servings</span>
               </li>
             </ul>
 
