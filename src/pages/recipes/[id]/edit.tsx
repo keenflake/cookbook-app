@@ -64,7 +64,7 @@ const EditRecipePage: NextPage<EditRecipePageProps> = ({ recipe: initialRecipe }
   return (
     <>
       <Head>
-        <title>Cookbook – {initialRecipe.name} edit form</title>
+        <title>{initialRecipe.name}</title>
       </Head>
 
       <Container className="mb-10">

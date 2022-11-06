@@ -48,7 +48,7 @@ const RecipeDetailsPage: NextPage<RecipeDetailsPageProps> = ({ recipe, favorite 
   return (
     <>
       <Head>
-        <title>Cookbook – {recipe.name} recipe</title>
+        <title>{recipe.name}</title>
       </Head>
 
       <Container className="my-12 md:my-6">
