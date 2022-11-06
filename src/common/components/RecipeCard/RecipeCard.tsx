@@ -59,10 +59,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
 
             <div className="flex items-center justify-between">
               <ul className="flex space-x-2">
-                <li className="px-3 py-2 bg-emerald-500 rounded-full font-medium text-xs text-white leading-none">
+                <li className="px-3 py-2 bg-emerald-600 rounded-full font-medium text-xs text-white leading-none">
                   {recipe.cuisine}
                 </li>
-                <li className="px-3 py-2 bg-sky-500 rounded-full font-medium text-xs text-white leading-none">
+                <li className="px-3 py-2 bg-sky-600 rounded-full font-medium text-xs text-white leading-none">
                   {recipe.cookingTime} mins
                 </li>
               </ul>

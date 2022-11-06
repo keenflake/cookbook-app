@@ -27,6 +27,7 @@ export const Footer: FC<FooterProps> = ({ className, ...props }) => {
             className="transition-opacity hover:opacity-80"
           >
             <Icon kind="github" className="w-8" />
+            <span className="sr-only">GitHub Repository</span>
           </a>
         </p>
 
